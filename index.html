@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Invitation</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: "Times New Roman", Times, serif;
+            background: linear-gradient(to right, #ffb3d9, #ffe6e6); /* Light pink gradient */
+            background-size: cover;       /* Ensures the gradient covers the entire screen */
+            background-position: center;  /* Centers the gradient */
+            background-repeat: no-repeat; /* Prevents repetition */
+            background-attachment: fixed; /* Keeps the background fixed during scroll */
+            background-color: #ffe6e6;    /* Fallback color */
+        }
+
+        .container {
+            margin-top: 90px;
+        }
+        h1 {
+            font-size: 40px;
+            color: #ff3366;
+        }
+        h2 {
+            font-size: 45px;
+        }
+        p {
+            text-align: center;
+            margin: 25px 50px 25px;
+            font-size: 20px;
+        }
+        .btn {
+            padding: 10px 70px;
+            font-size: 25px;
+            margin: 10px;
+            border: 1px solid #ff3366;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+        .yes {
+            background-color: #ff3366;
+            color: white;
+            transition: all 0.5s ease;
+        }
+        .no {
+            background-color: #333;
+            color: white;
+        }
+        .hidden {
+            display: none;
+            margin-top: 70px;
+        }
+        #invitation, #message {
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #invitation.hidden {
+            opacity: 0;
+        }
+
+        #message {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #message.show {
+            opacity: 1;
+        }
+
+        #loading {
+            display: flex;
+            justify-content: center;   /* Centers horizontally */
+            align-items: center;       /* Centers vertically */
+            flex-direction: column;
+            position: fixed;           /* Position relative to the viewport */
+            top: 50%;                  /* Move to the center vertically */
+            left: 50%;                 /* Move to the center horizontally */
+            transform: translate(-50%, -50%); /* Adjust to perfectly center */
+        }
+
+        #hearts {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+
+        .heart {
+            font-size: 30px;
+            color: red;
+            animation: bounce 1s infinite;
+            opacity: 0;
+        }
+
+        @keyframes bounce {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        33% {
+            transform: translateY(-20px);
+            opacity: 0.8;
+        }
+        66% {
+            transform: translateY(10px);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        }
+
+        .heart:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .heart:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .heart:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .responsive-gif {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;               /* Hidden by default */
+            position: fixed;             /* Stay in place */
+            z-index: 1;                  /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;                 /* Full width */
+            height: 100%;                /* Full height */
+            background-color: rgba(0,0,0,0.4); /* Fallback color */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;             /* Center the modal */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;                  /* Can adjust the width */
+            max-width: 400px;            /* Optional: Restrict modal width */
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        } 
+
+        .load{
+            margin-top: 30px;
+            max-width: 100%;
+            height: auto;
+        }
+        .please{
+            margin-top: 50px;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="invitation" class="container">
+        <h1>Hello, Bao Bao! <br> Will you be my Valentine? ❤️</h1>
+        <button class="btn yes" onclick="showMessage()">Yes</button>
+        <button class="btn no" onclick="growYesButton()">No</button>
+        <div>
+            <img src="https://media1.tenor.com/m/MCLtDVYmaq8AAAAC/cat-please.gif" alt="please-gif" class="please">
+    
+        </div>
+    </div>
+
+
+    <div id="loading" style="display: none;">
+        <!-- Loading hearts animation -->
+        <h2>Loading...</h2>
+        <div id="hearts"></div>
+        <img src="https://www.icegif.com/wp-content/uploads/valentines-day-icegif-30.gif" alt="loading" class="load">
+    </div>
+
+    <div id="message" class="hidden">
+        <h2>Yay! See you on Valentine's Day! ❤️</h2>
+        <p>
+            Baby, Thank you sa pag Accept! Sobrang excited ako na makasama ka sa Valentines Day. Hindi ko na mahintay na magkasama tayong gumawa ng mga hindi malilimutang alaala.
+        </p>
+        <img src="https://gifsec.com/wp-content/uploads/2022/09/happy-valentine-gif-1.gif" alt="Happy GIF" class="responsive-gif">
+       <div>
+            <label>Click This >>></label>
+            <button class="btn yes" onclick="showReply()">I love you!</button>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal Content -->
+        <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+            <h2>I love you too! ❤️</h2>
+            <!--- <a href="index.html">Home</a>--->
+        </div>
+    </div>
+
+    <script>
+        let yesSize = 50;
+        function growYesButton() {
+            yesSize += 50;
+            document.querySelector('.yes').style.fontSize = yesSize + 'px';
+        }
+
+        function showMessage() {
+            // Show the loading hearts animation
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('invitation').style.display = 'none';
+
+            // Create loading hearts
+            createLoadingHearts();
+
+            // Wait for the loading hearts animation and fade-out duration
+            setTimeout(function() {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('message').style.display = 'block';
+                document.getElementById('message').classList.add('show');
+            }, 3000); // Duration of loading hearts (3s)
+        }
+
+        function createLoadingHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            for (let i = 0; i < 3; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerText = '❤️';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Show the modal
+        function showReply() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        // Close the modal
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        // Close the modal if the user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("myModal")) {
+                closeModal();
+            }
+        }
+
+
+    </script>
+</body>
+</html>
